@@ -2,10 +2,7 @@
 title: API Reference
 
 language_tabs:
-  - shell
   - ruby
-  - python
-  - javascript
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -19,56 +16,15 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Shipmnts.com API! You can use our API endpoints to push and retreive information from the various modules we have.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Ruby. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
-# Authentication
+# Quote requests
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
+## Create New Quote request
 ```ruby
 require 'kittn'
 
@@ -76,114 +32,130 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 api.kittens.get
 ```
 
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "quote_request": {
+  "id": 3,
+  "created_at": 1500292868,
+  "updated_at": 1500292868,
+  "services_requested": ["origin_clearing", "origin_warehousing", "freight"],
+  "customer_preferences": null,
+  "incoterms": "CIF",
+ "port_of_loading": [
+  {
+    "name": "Ahmedabad",
+    "iata_code": "AMD",
+    "unloc_code": "INAMD"
+  },
+  {
+    "name": "Mumbai",
+    "iata_code": "BOM",
+    "unloc_code": "INBOM"
+  }
+],
+"port_of_discharge": [
+  { "name": "London Heathrow Airport",
+    "iata_code": "LHR",
+    "unloc_code": "GBLHR"
+  }
+],
+"origin_address": {
+  "id": "90090",
+  "name": "Ahmedabad Plant",
+  "address_line_1": "A-28 Pariseema Complex",
+  "address_line_2": "Opposite Tanishq Showroom",
+  "city": "Ahmedabad",
+  "state": "Gujarat",
+  "country_code": "IN",
+  "country": "India",
+  "postal_code": "380009"
+},
+"destination_address": null,
+"destuffing_location": null,
+"stuffing_location": null,
+"cargo_ready_date": 1500292868,
+"target_delivery_date": null,
+"payment_terms": "30 days",
+"gross_weight": 400,
+"volumetric_weight": 500,
+"weight_unit": "kg",
+"gross_volume": 1,
+"volume_unit": "CBM",
+"valid_till": null
+}
 }
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This endpoint creates a new quote request in the organizations procure pipeline.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`POST http://localhost:3000/quote_requests`
 
-### URL Parameters
+### Query Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Parameter | Type | Description
+--------- | ------- | -----------
+collaborating_companies | Array of Hash | Companies which are collaborating on this quote request. Schema definition of the object is defined [here](#collaborating-company-object)
+cargo_ready_date | Date | Its the date when the cargo of the shipper is ready
+target_delivery_date | Date | Its the date by which the cargo has to reach the destination
+service_requested | Array of string | All the services which are required by the company requesting the quote
+incoterms | string | Standard incoterms defined internationally
+port_of_loading | Array of Hash | Array of all possible Ports from where you want to load the cargo. Object is defined in the example and the schema [here](#port-object)
+port_of_discharge | Array of Hash | Array of all possible Ports where the cargo can be discharged. Object is defined in the example and the schema [here](#port-object).
+origin_address | Hash | Address from where loose goods are supposed to be picked up.  The schema of address object is defined [here](#address-object)
+destination_address | Hash | Address to where cargo is supposed to be delivered. The schema of address object is defined [here](#address-object)
+stuffing_location | Object | [Address](#address-object) / [Port](#port-object) where cargo is supposed to be stuff into the containers in the origin country
+destuffing_locaiton | Hash | [Address](#address-object) / [Port](#port-object) where cargo is supposed to be destuffed from the containers in the destination country
+gross_weight | Decimal | Gross weight of the cargo
+volumetric_weight | Decimal | Calculated by using gross weight and volume
+weight_unit | String | Weight unit ISO unit codes allowed
+gross_volume | Decimal | Gross volume of the cargo
+volume_unit  | Decimal | Volume unit ISO unit codes
+payment_terms | String | Prepaid, collect, 30 days credit
 
+<aside class="success">
+On successful post call response described in the code example section will be returned
+</aside>
+
+## Get All Quote Request
+Coming Soon
+
+## Get a Specific Quote Request
+Coming Soon
+
+#Port Object
+##Model Parameters
+Parameter | Type | Description
+--------- | ------- | -----------
+id | String | id of the port as stored in network microservice
+name | String | name of the Port
+iata_code | String |  3 character IATA Code for Airports
+unloc_code | String | 5 character code for Locations defined by United Nations
+
+#Address Object
+##Model Parameters
+Parameter | Type | Description
+--------- | ------- | -----------
+id | String | id of the address as stored in network microservice
+name | String | Short name of the Address
+address_type | String | Address Type
+address_line_1 | String |  3 character IATA Code for Airports
+address_line_2 | String | 5 character code for Locations defined by United Nations
+city | String |
+state | String |
+country_code | String | 2 Character ISO country code
+country | String | Country Name
+postal_code | String | Pincode / Zip code of the area
+
+#Collaborating Company Object
+##Model Parameters
+Parameter | Type | Description
+--------- | ------- | -----------
+quote_request_id | String | Id of quote request over which the company is collaborating (Not Required for quote request create call).
+company_id | String | id of the company as stored in network microservice
+name | String | Name of the company as stored in network
+role | String | Role of the company on this quote request (buyer, seller)
